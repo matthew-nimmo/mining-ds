@@ -16,6 +16,24 @@ target_doc: "/reports/discover/titanic-data-analysis.pdf"
 target_source: https://github.com/matthew-nimmo/mining-ds-vault/tree/main/discover/Titanic-Data-Analysis
 ---
 
-Bayesian Networks are a statistical modelling technique that represents the joint probability between variables. Mixed networks allow modelling of discrete and continuous variables but require that continuous variables are Gaussian and have linear relationships. Neither of which can be guaranteed when performing exploratory modelling. However, despite this restriction the technique can be used for exploratory modelling to gain insight into the data. Later, in modelling the data, any potential non-Gaussian and non-linearity in the data can be accounted for by adding additional variables to the Bayesian Network (Gaussian Mixture Models are great for this).
+Most people who work with the Titanic dataset follow the same path: load the data, engineer a few features, and train a random forest to predict survival. It’s a good exercise. But it skips the most important part of the analysis.
 
-The Titanic dataset is used to showcase the use of Bayesian Networks to focus Exploratory Data Analysis (EDA) on key data features to speed up the analysis. An added bonus is that a Bayesian Network can be trained on data that contain missing values.
+Understanding the data.
+
+For this example, I use the Titanic dataset as a statistical storytelling problem, not a machine-learning (ML) competition. The goal isn’t to build the most accurate model. It is to uncover the relationships that explain why certain groups survived and others didn’t.
+
+It’s a practical example of how Bayesian Networks can be used for exploratory analysis in real mining datasets. To understand structure and reveal dependencies before building any predictive model.
+
+Bayesian Networks are one of my favourite statistical modelling techniques. I use it a lot to gain an understanding of geometallurgical data. I even use it to build an initial model of the complete data, not just selected variables (features), and to help discover what data is missing. Knowing what data we don't have is just as important as knowing what data we do have. The confounder can really hurt an analysis and the modelling. 
+
+Using Bayesian Networks, we can:
+- learn the conditional dependencies between variables
+- visualise the structure of the data as a directed acyclic graph
+- identify which variables influence survival directly or indirectly
+- query the model to answer questions like:
+ “Given age, class, and sex, what is the probability of survival?”
+- generate synthetic passengers to test hypotheses
+- combine latent variables with a Bayes‑style classifier to estimate survivability
+- perform ML counter-factual analysis
+
+I did this analysis several years ago. I have made some structural edits and moved it inside the mining-ds-vault where the full source code (R and Quarto report) can be viewed.
