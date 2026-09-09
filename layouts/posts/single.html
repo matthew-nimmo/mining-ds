@@ -1,0 +1,141 @@
+{{ define "main" }}
+{{ $postsURL := "posts/" | relURL }}
+<article class="post-single" style="padding: 0px 0;">
+  
+  <!-- POST HEADER -->
+  <header class="post-header" style="margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 24px;">
+    <div class="post-meta" style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 02, 2006" }}</time>
+      {{ if .Params.reading_time }} • {{ .ReadingTime }} min read{{ end }}
+    </div>
+
+    <h1 style="margin-bottom: 16px;">{{ .Title }}</h1>
+
+    <!-- TAXONOMY BADGES -->
+    {{ if or .Params.repositories .Params.tags }}
+    <div class="post-badges" style="margin-top: 16px;">
+      {{ range .Params.repositories }}
+        <a href="{{ printf "%s?repo=%s" $postsURL (. | urlquery) }}" class="badge filter-link" data-filter-type="repo" data-filter-value="{{ . }}" style="background: var(--accent); color: #ffffff;">{{ . }}</a>
+      {{ end }}
+      {{ range .Params.tags }}
+        <a href="{{ printf "%s?tag=%s" $postsURL (. | urlquery) }}" class="badge filter-link" data-filter-type="tag" data-filter-value="{{ . }}">{{ . }}</a>
+      {{ end }}
+    </div>
+    {{ end }}
+  </header>
+
+  <!-- POST BODY -->
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+
+  <!-- LINK TO ASSETS (IF APPLICABLE) -->
+  {{ if or .Params.target_doc .Params.target_source .Params.target_code }}
+  <div style="margin-top: 40px; padding: 20px; background-color: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);">
+    <h4 style="font-family: var(--font-serif); margin-bottom: 8px;">Links</h4>
+    <p style="font-size: 0.95rem; margin-bottom: 16px;">This post has an associated standalone Quarto document containing full code execution and interactive visualizations.</p>
+    {{ if .Params.target_doc }}
+      <a href="{{ .Params.target_doc | relURL }}" class="btn-frame btn-sm">Open PDF Report ➔</a>
+    {{ end }}
+    {{ if .Params.target_source }}
+      <a href="{{ .Params.target_source | relURL }}" class="btn-frame btn-sm">View Source (Vault) ➔</a>
+    {{ end }}
+    {{ if .Params.target_code }}
+      <a href="{{ .Params.target_code | relURL }}" class="btn-frame btn-sm">View Source (Toolkit) ➔</a>
+    {{ end }}
+  </div>
+  {{ end }}
+
+</article>
+
+<!-- ADD SCSS STYLES SPECIFIC TO MARKDOWN CONTENT ELEMENTS -->
+<style>
+  .post-content h2 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    margin-top: 40px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+
+  .post-content h3 {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    margin-top: 28px;
+    margin-bottom: 12px;
+  }
+
+  .post-content p {
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+
+  .post-content ul, .post-content ol {
+    margin-bottom: 24px;
+    padding-left: 24px;
+    color: var(--text-muted);
+  }
+
+  .post-content li {
+    margin-bottom: 8px;
+  }
+
+  /* Blockquotes / Callout style */
+  .post-content blockquote {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin: 28px 0;
+    font-style: italic;
+  }
+
+  .post-content blockquote p {
+    margin-bottom: 0;
+  }
+
+  /* Code Blocks */
+  .post-content pre {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    padding: 16px !important;
+    overflow-x: auto;
+    margin: 24px 0;
+  }
+
+  .post-content code {
+    font-family: var(--font-mono) !important;
+    font-size: 0.9rem;
+  }
+
+  /* Inline Code */
+  .post-content p code, .post-content li code {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  /* Tables */
+  .post-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 28px 0;
+    font-size: 0.95rem;
+  }
+
+  .post-content th, .post-content td {
+    border: 1px solid var(--border);
+    padding: 12px;
+    text-align: left;
+  }
+
+  .post-content th {
+    background-color: var(--card-bg);
+    font-family: var(--font-mono);
+  }
+</style>
+{{ end }}

@@ -1,0 +1,19 @@
+{{ define "main" }}
+<div class="report-layout">
+  <h1 class="report-title">{{ .Title }}</h1>
+
+  <aside class="report-toc">
+    {{ .TableOfContents }}
+  </aside>
+
+  <article class="report-content">
+    {{ $pdf := printf "%s.pdf" .File.BaseFileName }}
+    {{ if (fileExists (printf "content/reports/%s" $pdf)) }}
+        <a href="/reports/{{ $pdf }}" class="btn btn-sm btn-frame">Download PDF ➔</a>
+    {{ end }}
+
+    {{ .Content }}
+  </article>
+
+</div>
+{{ end }}

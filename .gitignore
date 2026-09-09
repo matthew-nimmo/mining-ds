@@ -1,0 +1,16 @@
+# Generated files by Hugo
+/public/
+/resources/_gen/
+/assets/jsconfig.json
+hugo_stats.json
+
+# Hugo execution lock file
+.hugo_build.lock
+
+# Optional: Log files
+hugo.log
+*.log
+
+# Optional: OS generated files
+.DS_Store
+Thumbs.db

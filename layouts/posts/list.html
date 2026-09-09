@@ -1,0 +1,127 @@
+{{ define "main" }}
+
+<section style="padding: 80px 0 40px 0;">
+  <h1>Posts</h1>
+</section>
+
+{{ $postsURL := "posts/" | relURL }}
+{{ $pages := .Pages }}
+
+<section>
+  <div class="posts-layout">
+    <div class="post-grid">
+      {{ range $pages }}
+      <div class="post-card" data-tags="{{ delimit .Params.tags "|" }}" data-repositories="{{ delimit .Params.repositories "|" }}">
+        <div>
+          <div class="post-meta">{{ .Date.Format "Jan 02, 2006" }}</div>
+          <a href="{{ .RelPermalink }}" class="post-title">{{ .Title }}</a>
+          <p>{{ .Summary }}</p>
+
+          {{ if .Params.repositories }}
+            <div class="post-badges">
+              {{ range .Params.repositories }}
+                <a href="{{ printf "%s?repo=%s" $postsURL (. | urlquery) }}" class="badge filter-link" data-filter-type="repo" data-filter-value="{{ . }}">{{ . }}</a>
+              {{ end }}
+            </div>
+          {{ end }}
+
+          {{ if .Params.tags }}
+            <div class="post-badges">
+              {{ range .Params.tags }}
+                <a href="{{ printf "%s?tag=%s" $postsURL (. | urlquery) }}" class="badge filter-link" data-filter-type="tag" data-filter-value="{{ . }}">{{ . }}</a>
+              {{ end }}
+            </div>
+          {{ end }}
+        </div>
+
+        {{ if .Params.target_doc }}
+          <a href="{{ .Params.target_doc | relURL }}" class="btn-sm post-card-action">Open Report ➔</a>
+        {{ end }}
+      </div>
+      {{ end }}
+    </div>
+
+    <aside class="filter-panel">
+      <div class="filter-group">
+        <h2>Repositories</h2>
+        <div class="filter-options">
+          {{ range .Site.Taxonomies.repositories.Alphabetical }}
+            <a href="{{ printf "%s?repo=%s" $postsURL (.Page.Title | urlquery) }}" class="filter-button btn-sm filter-link" data-filter-type="repo" data-filter-value="{{ .Page.Title }}" aria-pressed="false">{{ .Page.Title }}</a>
+          {{ end }}
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <h2>Tags</h2>
+        <div class="filter-options">
+          {{ range .Site.Taxonomies.tags.Alphabetical }}
+            <a href="{{ printf "%s?tag=%s" $postsURL (.Page.Title | urlquery) }}" class="filter-button btn-sm filter-link" data-filter-type="tag" data-filter-value="{{ .Page.Title }}" aria-pressed="false">{{ .Page.Title }}</a>
+          {{ end }}
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const params = new URLSearchParams(window.location.search);
+    const filters = {
+      tag: params.get('tag'),
+      repo: params.get('repo')
+    };
+    const cards = [...document.querySelectorAll('.post-card[data-tags]')];
+    const filterLinks = [...document.querySelectorAll('.filter-link')];
+
+    const applyFilters = () => {
+      cards.forEach((card) => {
+        const tags = card.dataset.tags.split('|').filter(Boolean);
+        const repositories = card.dataset.repositories.split('|').filter(Boolean);
+        const matchesTag = !filters.tag || tags.includes(filters.tag);
+        const matchesRepo = !filters.repo || repositories.includes(filters.repo);
+        card.hidden = !(matchesTag && matchesRepo);
+      });
+
+      filterLinks.forEach((link) => {
+        const isActive = filters[link.dataset.filterType] === link.dataset.filterValue;
+        link.classList.toggle('is-active', isActive);
+        link.setAttribute('aria-pressed', String(isActive));
+      });
+    };
+
+    filterLinks.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        if (link.closest('.post-card') && window.location.pathname !== new URL(link.href).pathname) {
+          return;
+        }
+
+        event.preventDefault();
+        const type = link.dataset.filterType;
+        const value = link.dataset.filterValue;
+
+        if (filters[type] === value) {
+          params.delete(type);
+          filters[type] = null;
+        } else {
+          params.set(type, value);
+          filters[type] = value;
+        }
+
+        const query = params.toString();
+        const nextURL = `${window.location.pathname}${query ? `?${query}` : ''}`;
+        window.history.pushState({}, '', nextURL);
+        applyFilters();
+      });
+    });
+
+    window.addEventListener('popstate', () => {
+      filters.tag = new URLSearchParams(window.location.search).get('tag');
+      filters.repo = new URLSearchParams(window.location.search).get('repo');
+      applyFilters();
+    });
+
+    applyFilters();
+  })();
+</script>
+
+{{ end }}

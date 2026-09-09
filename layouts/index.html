@@ -1,0 +1,48 @@
+{{ define "main" }}
+{{ $postsURL := "posts/" | relURL }}
+<section class="hero">
+  <div class="tagline">// Explore the Problem Space. Discover the Value.</div>
+  <h1>mining-ds</h1>
+  <p class="hero-sub">
+    A centralized blog for the <strong>mining-ds</strong> ecosystem which consists of the GitHub repositories mining-ds-vault and mining-ds-toolkit.
+    Research, case studies, R notebooks, workflows, examples, code fragments, and GUI/CLI tools.
+  </p>
+  <div class="cta-group">
+    <a href="/posts/" class="btn">View All Posts ➔</a>
+    <a href="https://matthew-nimmo.github.io/mining-ds-vault/" class="btn btn-outline">mining-ds-vault</a>
+    <a href="https://matthew-nimmo.github.io/mining-ds-toolkit/" class="btn btn-outline">mining-ds-toolkit</a>
+  </div>
+</section>
+
+<!-- POSTS OVERVIEW SECTION -->
+<section>
+  <h2>Recent Posts</h2>
+  <div class="post-grid home-post-grid">
+    {{ range first 2 (where .Site.RegularPages "Section" "posts") }}
+    <div class="post-card">
+      <div>
+        <div class="post-meta">{{ .Date.Format "Jan 02, 2006" }}</div>
+        <a href="{{ .RelPermalink }}" class="post-title">{{ .Title }}</a>
+        <p style="font-size: 0.95rem;">{{ .Summary | truncate 260 }}</p>
+      </div>
+      
+      <div class="post-badges">
+        {{ range .Params.repositories }}
+          <a href="{{ printf "%s?repo=%s" $postsURL (. | urlquery) }}" class="badge filter-link" data-filter-type="repo" data-filter-value="{{ . }}">{{ . }}</a>
+        {{ end }}
+        {{ range .Params.tags }}
+          <a href="{{ printf "%s?tag=%s" $postsURL (. | urlquery) }}" class="badge filter-link" data-filter-type="tag" data-filter-value="{{ . }}">{{ . }}</a>
+        {{ end }}
+      </div>
+
+      {{ if .Params.target_doc }}
+        <a href="{{ .Params.target_doc | relURL }}" class="btn-sm btn-block post-card-action">Open Report ➔</a>
+      {{ end }}
+    </div>
+    {{ end }}
+  </div>
+  <div>
+    <a href="/posts/" class="btn btn-sm" style="margin-top: 40px;">View All Posts ➔</a>
+  </div>
+</section>
+{{ end }}
