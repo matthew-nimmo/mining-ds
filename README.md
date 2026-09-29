@@ -1,0 +1,56 @@
+# Mining DS
+
+The Mining DS Hub provides the ecosystem architecture, governance, and semantics.
+
+## Documentation & Knowledge Hub
+
+Published content is available through the Nimmo Analytics website:
+
+➡️ https://nimmoanalytics.au/blog
+
+## What is Mining DS?
+
+Mining DS is a mining data science and analytics knowledge platform focused on:
+
+- Geology
+- Geometallurgy
+- Resource Modelling
+- Mine Planning
+- Mineral Processing
+- Mining Analytics
+- Data Engineering
+- Data Science for Mining
+
+## Repository Purpose
+
+This repository functions as the content source for published material and is primarily intended for:
+
+- Content development
+- Knowledge management
+- Version control
+- Publishing workflows
+
+## Philosophy
+
+The mining-ds is built on:
+- simplicity
+- reliability
+- modern engineering practices
+- sharing practical tools with the industry
+
+## License
+
+BSD 3-Clause License
+
+## Related Resources
+
+- Nimmo Analytics: https://nimmoanalytics.au
+- Mining DS Blog: https://nimmoanalytics.au/blog
+
+**The identity page for the mining-ds Hub**
+➡️ Visit https://matthew-nimmo.github.io/mining-ds/
+
+**Looking for the identity pages**
+
+➡️ Visit https://matthew-nimmo.github.io/mining-ds-vault/
+➡️ Visit https://matthew-nimmo.github.io/mining-ds-toolkit/
